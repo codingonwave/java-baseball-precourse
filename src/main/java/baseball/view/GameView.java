@@ -1,6 +1,7 @@
 package baseball.view;
 
 import baseball.domain.Game;
+import baseball.domain.GameRecord;
 
 public class GameView {
 
@@ -10,6 +11,17 @@ public class GameView {
 
     public void response(Game game) {
         System.out.print(chooseMessage(game));
+    }
+
+    public void response(GameRecord record) {
+        String message = "";
+
+        if (record.getStrike() > 0) message += record.getStrike() + "스트라이크 ";
+        if (record.getBall() > 0) message += record.getBall() +"볼 ";
+        if (record.getStrike() < 1 && record.getBall() < 1) message = "포볼";
+
+        message = message.trim();
+        System.out.println(message);
     }
 
     private String chooseMessage(Game game) {

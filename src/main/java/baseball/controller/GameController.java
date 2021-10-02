@@ -2,6 +2,7 @@ package baseball.controller;
 
 import baseball.controller.validate.*;
 import baseball.domain.Game;
+import baseball.domain.GameRecord;
 import baseball.domain.GameRule;
 import baseball.view.GameView;
 import nextstep.utils.Console;
@@ -34,9 +35,9 @@ public class GameController {
             input = readInput();
             try {
                 validateInput(game, input);
-                startGame(input);
+                playGame(input);
                 response(input);
-            } catch (IllegalArgumentException ex) {
+            } catch (IllegalArgumentException | IllegalAccessException ex) {
                 responseError(ex.getMessage());
             }
         }
@@ -62,9 +63,15 @@ public class GameController {
         }
     }
 
-    private void startGame(String input) {
+    private void playGame(String input) throws IllegalAccessException {
         if (!game.isPlaying() && input.equals(Command.START)) {
             game.start();
+            return;
+        }
+
+        if (game.isPlaying()) {
+            GameRecord record = game.play(input);
+            gameView.response(record);
         }
     }
 
