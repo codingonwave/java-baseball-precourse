@@ -18,7 +18,7 @@ public class GameController {
 
     public GameController(GameRule rule) {
 
-        this.game = new Game();
+        this.game = new Game(rule);
         this.rule = rule;
         this.validator = new CompositeValidator(
                 new LengthValidator(rule.getLength()),
