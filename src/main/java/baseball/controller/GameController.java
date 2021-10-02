@@ -1,6 +1,8 @@
 package baseball.controller;
 
+import baseball.controller.validate.*;
 import baseball.domain.Game;
+import baseball.domain.GameRule;
 import baseball.view.GameView;
 import nextstep.utils.Console;
 
@@ -8,10 +10,21 @@ public class GameController {
 
     private final GameView gameView = new GameView();
 
+    private final InputValidator validator;
+
+    private final GameRule rule;
+
     private Game game;
 
-    public GameController() {
+    public GameController(GameRule rule) {
+
         this.game = new Game();
+        this.rule = rule;
+        this.validator = new CompositeValidator(
+                new LengthValidator(rule.getLength()),
+                new NumericValidator(),
+                new RangeValidator(rule.getFrom(), rule.getTo()));
+
         initMessage();
     }
 
@@ -19,8 +32,13 @@ public class GameController {
         String input = "";
         while(keepGoing(game, input)) {
             input = readInput();
-            startGame(input);
-            response(input);
+            try {
+                validateInput(game, input);
+                startGame(input);
+                response(input);
+            } catch (IllegalArgumentException ex) {
+                responseError(ex.getMessage());
+            }
         }
     }
 
@@ -38,6 +56,12 @@ public class GameController {
         return Console.readLine();
     }
 
+    private void validateInput(Game game, String input) {
+        if (game.isPlaying()) {
+            validator.validate(input);
+        }
+    }
+
     private void startGame(String input) {
         if (!game.isPlaying() && input.equals(Command.START)) {
             game.start();
@@ -48,5 +72,9 @@ public class GameController {
         if (!game.isPlaying() && input.equals(Command.END)) return;
 
         gameView.response(game);
+    }
+
+    private void responseError(String errorMessage) {
+        gameView.responseError(errorMessage);
     }
 }

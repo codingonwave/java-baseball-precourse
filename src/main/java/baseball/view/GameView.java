@@ -17,4 +17,8 @@ public class GameView {
 
         return GuidMessage.MSG_FOR_START;
     }
+
+    public void responseError(String errorMessage) {
+        System.out.print("[ERROR]" + errorMessage);
+    }
 }

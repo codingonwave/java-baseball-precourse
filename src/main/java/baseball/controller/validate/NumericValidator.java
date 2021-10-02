@@ -6,7 +6,7 @@ public class NumericValidator implements InputValidator {
     @Override
     public void validate(String input) throws IllegalArgumentException {
         if (input == null || input.length() == 0 || containCharacter(input)) {
-            throw new IllegalArgumentException("숫자만 입력 가능합니다");
+            throw new IllegalArgumentException("숫자만 입력해주세요: ");
         }
     }
 

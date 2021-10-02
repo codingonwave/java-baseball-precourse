@@ -16,7 +16,7 @@ public class RangeValidator implements InputValidator {
     @Override
     public void validate(String input) throws IllegalArgumentException {
         if ((input == null) || containOutOfRange(input)) {
-            throw new IllegalArgumentException(from + " ~ " + to + " 숫자만 입력해주세요");
+            throw new IllegalArgumentException(from + " ~ " + to + " 숫자만 입력해주세요: ");
         }
     }
 

@@ -13,7 +13,7 @@ public class LengthValidator implements InputValidator {
     @Override
     public void validate(String input) throws IllegalArgumentException {
         if (input == null || input.length() != length) {
-            throw new IllegalArgumentException(length + "자리 숫자를 입력해주세요");
+            throw new IllegalArgumentException(length + "자리 숫자를 입력해주세요: ");
         }
     }
 }
