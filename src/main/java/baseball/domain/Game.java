@@ -58,6 +58,16 @@ public class Game {
         return ball;
     }
 
+
+    public GameRecord play(String input) throws IllegalAccessException{
+        int strikeCount = countStrike(input);
+        int ballCount = countBall(input);
+
+        return new GameRecord(strikeCount, ballCount);
+
+
+    }
+
     public String getAnswer() {
         return answer;
     }

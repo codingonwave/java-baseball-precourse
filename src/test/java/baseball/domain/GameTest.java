@@ -53,8 +53,8 @@ class GameTest {
                 game.setAnswer("123");
             }
 
-            @DisplayName("정답과 비교하여 스트라이크 개수를 리턴한다, 정답: 123")
-            @ParameterizedTest(name = "input: {0}, strike:{1}")
+            @DisplayName("정답과 비교하여 스트라이크 개수를 리턴한다")
+            @ParameterizedTest(name = "answer: 123, input: {0}, strike: {1}")
             @CsvSource({"123, 3", "125, 2","321, 1", "456, 0"})
             void it_count_strike(String input, Integer expected) throws IllegalAccessException {
                 int actual = game.countStrike(input);
@@ -79,12 +79,40 @@ class GameTest {
                 game.setAnswer("123");
             }
 
-            @DisplayName("정답과 비교하여 볼 개수를 리턴한다, 정답: 123")
-            @ParameterizedTest(name = "input: {0}, ball:{1}")
+            @DisplayName("정답과 비교하여 볼 개수를 리턴한다")
+            @ParameterizedTest(name = "answer: 123, input: {0}, ball: {1}")
             @CsvSource({"123, 0", "125, 0","321, 2", "456, 0"})
             void it_count_ball(String input, Integer expected) throws IllegalAccessException {
                 int ballCount = game.countBall(input);
                 assertThat(ballCount).isEqualTo(expected);
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("play 메소드는")
+    class Describe_play {
+
+        GameRule rule = new GameRule(3, 1, 9);
+        Game game = new Game(rule);
+
+        @Nested
+        @DisplayName("사용자가 입력한 3자리 숫자를 받아서")
+        class Context_input {
+
+            @BeforeEach
+            void setAnswer() {
+                game.start();
+                game.setAnswer("123");
+            }
+
+            @DisplayName("정답과 비교하여 스트라이크와 볼 개수를 리턴한다")
+            @ParameterizedTest(name = "answer: 123, input: {0}, strike: {1}, ball: {2}")
+            @CsvSource({"123, 3, 0", "125, 2, 0","321, 1, 2", "456, 0, 0"})
+            void it_play(String input, Integer expectedStrike, Integer expectedBall) throws IllegalAccessException {
+                GameRecord record = game.play(input);
+                assertThat(record.getStrike()).isEqualTo(expectedStrike);
+                assertThat(record.getBall()).isEqualTo(expectedBall);
             }
         }
     }
