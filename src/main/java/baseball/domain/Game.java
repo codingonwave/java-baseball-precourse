@@ -28,7 +28,7 @@ public class Game {
         answer = generator.generate();
     }
 
-    public int countStrike(String input) throws IllegalAccessException{
+    public int countStrike(String input) throws IllegalAccessException {
         if (!playing) throw new IllegalAccessException("아직 게임이 시작되지 않았습니다");
 
         List<String> inputNumbers = splitToNumberList(input);
@@ -43,6 +43,21 @@ public class Game {
         return strike;
     }
 
+    public int countBall(String input) throws IllegalAccessException {
+        if (!playing) throw new IllegalAccessException("아직 게임이 시작되지 않았습니다");
+
+        List<String> inputNumbers = splitToNumberList(input);
+        List<String> answers = splitToNumberList(answer);
+
+        int ball = 0;
+
+        for (int index = 0; index < inputNumbers.size(); index++) {
+            ball += isBall(inputNumbers.get(index), answers.get(index));
+        }
+
+        return ball;
+    }
+
     public String getAnswer() {
         return answer;
     }
@@ -52,8 +67,14 @@ public class Game {
         return Arrays.asList(split);
     }
 
-    private int isStrike(String input, String answer) {
-        if (input.equals(answer)) return 1;
+    private int isStrike(String ithInput, String ithAnswer) {
+        if (ithInput.equals(ithAnswer)) return 1;
+
+        return 0;
+    }
+
+    private int isBall(String ithInput, String ithAnswer) {
+        if (!ithInput.equals(ithAnswer) && answer.contains(ithInput)) return 1;
 
         return 0;
     }
