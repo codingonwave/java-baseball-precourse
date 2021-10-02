@@ -207,4 +207,64 @@ class InputValidatorTest {
         }
     }
 
+    @Nested
+    @DisplayName("DuplicateValidator 클래스")
+    class Test_DuplicateValidator {
+        @Nested
+        @DisplayName("validate 메소드는")
+        class Describe_validate {
+            private InputValidator validator = new DuplicateValidator();
+
+            @Nested
+            @DisplayName("input에 중복된 숫자가 없다면")
+            class Context_valid_input {
+                private String input = "123";
+
+                @DisplayName("exception을 발생시키지 않는다")
+                @Test
+                void it_throw_exception() {
+                    validator.validate(input);
+                }
+            }
+
+            @Nested
+            @DisplayName("input이 null이면")
+            class Context_null_input {
+                private String input = null;
+
+                @DisplayName("IllegalArgumentException을 발생시킨다")
+                @Test
+                void it_throw_exception() {
+                    assertThatThrownBy(() -> validator.validate(input))
+                            .isInstanceOf(IllegalArgumentException.class);
+                }
+            }
+
+            @Nested
+            @DisplayName("input이 empty면")
+            class Context_empty_input {
+                private String input = "";
+
+                @DisplayName("IllegalArgumentException을 발생시킨다")
+                @Test
+                void it_throw_exception() {
+                    assertThatThrownBy(() -> validator.validate(input))
+                            .isInstanceOf(IllegalArgumentException.class);
+                }
+            }
+
+            @Nested
+            @DisplayName("input에 중복된 숫자가 있다면")
+            class Context_long_input {
+                private String input = "112";
+
+                @DisplayName("IllegalArgumentException을 발생시킨다")
+                @Test
+                void it_throw_exception() {
+                    assertThatThrownBy(() -> validator.validate(input))
+                            .isInstanceOf(IllegalArgumentException.class);
+                }
+            }
+        }
+    }
 }

@@ -24,8 +24,8 @@ public class GameController {
         this.validator = new CompositeValidator(
                 new LengthValidator(rule.getLength()),
                 new NumericValidator(),
-                new RangeValidator(rule.getFrom(), rule.getTo()));
-
+                new RangeValidator(rule.getFrom(), rule.getTo()),
+                new DuplicateValidator());
     }
 
     public void listen() {
