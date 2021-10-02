@@ -63,9 +63,13 @@ public class Game {
         int strikeCount = countStrike(input);
         int ballCount = countBall(input);
 
+        if (strikeCount == 3) endGame();
+
         return new GameRecord(strikeCount, ballCount);
+    }
 
-
+    private void endGame() {
+        playing = false;
     }
 
     public String getAnswer() {

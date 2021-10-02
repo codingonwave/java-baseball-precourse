@@ -115,5 +115,25 @@ class GameTest {
                 assertThat(record.getBall()).isEqualTo(expectedBall);
             }
         }
+
+        @Nested
+        @DisplayName("사용자가 입력한 3자리 숫자가 3스트라이크 이면")
+        class Context_three_strike {
+
+            String prevAnswer = "123";
+
+            @BeforeEach
+            void setAnswer() throws IllegalAccessException {
+                game.start();
+                game.setAnswer(prevAnswer);
+                game.play(prevAnswer);
+            }
+
+            @DisplayName("Game 객체의 playing 속성을 false로 설정한다")
+            @Test
+            void it_end() {
+                assertThat(game.isPlaying()).isFalse();
+            }
+        }
     }
 }

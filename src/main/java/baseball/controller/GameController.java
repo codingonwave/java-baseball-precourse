@@ -26,12 +26,13 @@ public class GameController {
                 new NumericValidator(),
                 new RangeValidator(rule.getFrom(), rule.getTo()));
 
-        initMessage();
     }
 
     public void listen() {
-        String input = "";
-        while(keepGoing(game, input)) {
+        init();
+        String input;
+
+        do {
             input = readInput();
             try {
                 validateInput(game, input);
@@ -40,11 +41,12 @@ public class GameController {
             } catch (IllegalArgumentException | IllegalAccessException ex) {
                 responseError(ex.getMessage());
             }
-        }
+        } while (keepGoing(game, input));
     }
 
-    private void initMessage() {
-        gameView.response();
+    private void init() {
+        game.start();
+        gameView.response(game);
     }
 
     private boolean keepGoing(Game game, String input) {
