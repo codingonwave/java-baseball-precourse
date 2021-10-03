@@ -5,8 +5,6 @@ import java.util.List;
 
 public class Game {
 
-    private final GameRule rule;
-
     private final AnswerGenerator generator;
 
     private boolean playing;
@@ -14,7 +12,6 @@ public class Game {
     private String answer;
 
     public Game(GameRule rule) {
-        this.rule = rule;
         this.playing = false;
         this.generator = new AnswerGenerator(rule);
     }

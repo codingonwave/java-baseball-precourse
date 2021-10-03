@@ -2,9 +2,9 @@ package baseball.domain;
 
 public class GameRecord {
 
-    private int strike;
+    private final int strike;
 
-    private int ball;
+    private final int ball;
 
     public GameRecord(int strike, int ball) {
         this.strike = strike;

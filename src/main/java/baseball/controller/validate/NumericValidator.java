@@ -1,7 +1,5 @@
 package baseball.controller.validate;
 
-import baseball.domain.Game;
-
 public class NumericValidator implements InputValidator {
     @Override
     public void validate(String input) throws IllegalArgumentException {

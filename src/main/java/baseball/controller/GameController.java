@@ -13,14 +13,11 @@ public class GameController {
 
     private final InputValidator validator;
 
-    private final GameRule rule;
-
-    private Game game;
+    private final Game game;
 
     public GameController(GameRule rule) {
 
         this.game = new Game(rule);
-        this.rule = rule;
         this.validator = new CompositeValidator(
                 new LengthValidator(rule.getLength()),
                 new NumericValidator(),

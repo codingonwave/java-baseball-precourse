@@ -1,7 +1,5 @@
 package baseball.controller.validate;
 
-import baseball.domain.Game;
-
 public class RangeValidator implements InputValidator {
 
     private final int from;
