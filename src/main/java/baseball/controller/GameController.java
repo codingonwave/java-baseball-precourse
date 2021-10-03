@@ -15,14 +15,10 @@ public class GameController {
 
     private final Game game;
 
-    public GameController(GameRule rule) {
+    public GameController(GameRule rule, InputValidator validator) {
 
         this.game = new Game(rule);
-        this.validator = new CompositeValidator(
-                new LengthValidator(rule.getLength()),
-                new NumericValidator(),
-                new RangeValidator(rule.getFrom(), rule.getTo()),
-                new DuplicateValidator());
+        this.validator = validator;
     }
 
     public void listen() {
