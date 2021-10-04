@@ -25,11 +25,7 @@ public class GameController {
 		String input;
 		do {
 			input = readInput();
-			try {
-				play(input);
-			} catch (IllegalArgumentException | IllegalAccessException ex) {
-				responseError(ex.getMessage());
-			}
+			play(input);
 		} while (keepGoing(game, input));
 	}
 
@@ -42,10 +38,14 @@ public class GameController {
 		return Console.readLine();
 	}
 
-	private void play(String input) throws IllegalArgumentException, IllegalAccessException {
-		validateInput(game, input);
-		playGame(input);
-		response(input);
+	private void play(String input) {
+		try {
+			validateInput(game, input);
+			playGame(input);
+			response(input);
+		} catch (IllegalArgumentException | IllegalAccessException ex) {
+			responseError(ex.getMessage());
+		}
 	}
 
 	private void validateInput(Game game, String input) {
