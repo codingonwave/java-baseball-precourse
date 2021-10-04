@@ -16,7 +16,6 @@ public class GameController {
 	private final Game game;
 
 	public GameController(GameRule rule, InputValidator validator) {
-
 		this.game = new Game(rule);
 		this.validator = validator;
 	}
@@ -24,13 +23,10 @@ public class GameController {
 	public void listen() {
 		init();
 		String input;
-
 		do {
 			input = readInput();
 			try {
-				validateInput(game, input);
-				playGame(input);
-				response(input);
+				play(input);
 			} catch (IllegalArgumentException | IllegalAccessException ex) {
 				responseError(ex.getMessage());
 			}
@@ -42,16 +38,14 @@ public class GameController {
 		gameView.response(game);
 	}
 
-	private boolean keepGoing(Game game, String input) {
-		if (game.isPlaying()) {
-			return true;
-		}
-
-		return !game.isPlaying() && !input.equals(Command.END);
-	}
-
 	private String readInput() {
 		return Console.readLine();
+	}
+
+	private void play(String input) throws IllegalArgumentException, IllegalAccessException {
+		validateInput(game, input);
+		playGame(input);
+		response(input);
 	}
 
 	private void validateInput(Game game, String input) {
@@ -82,5 +76,13 @@ public class GameController {
 
 	private void responseError(String errorMessage) {
 		gameView.responseError(errorMessage);
+	}
+
+	private boolean keepGoing(Game game, String input) {
+		if (game.isPlaying()) {
+			return true;
+		}
+
+		return !game.isPlaying() && !input.equals(Command.END);
 	}
 }

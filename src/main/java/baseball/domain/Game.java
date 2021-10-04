@@ -1,8 +1,5 @@
 package baseball.domain;
 
-import java.util.Arrays;
-import java.util.List;
-
 public class Game {
 
 	private final AnswerGenerator generator;
@@ -11,9 +8,15 @@ public class Game {
 
 	private String answer;
 
+	private final Counter strikeCounter;
+
+	private final Counter ballCounter;
+
 	public Game(GameRule rule) {
 		this.playing = false;
 		this.generator = new AnswerGenerator(rule);
+		this.strikeCounter = new StrikeCounter();
+		this.ballCounter = new BallCounter();
 	}
 
 	public boolean isPlaying() {
@@ -29,34 +32,14 @@ public class Game {
 		if (!playing) {
 			throw new IllegalAccessException("아직 게임이 시작되지 않았습니다");
 		}
-
-		List<String> inputNumbers = splitToNumberList(input);
-		List<String> answers = splitToNumberList(answer);
-
-		int strike = 0;
-
-		for (int index = 0; index < inputNumbers.size(); index++) {
-			strike += isStrike(inputNumbers.get(index), answers.get(index));
-		}
-
-		return strike;
+		return strikeCounter.count(answer, input);
 	}
 
 	public int countBall(String input) throws IllegalAccessException {
 		if (!playing) {
 			throw new IllegalAccessException("아직 게임이 시작되지 않았습니다");
 		}
-
-		List<String> inputNumbers = splitToNumberList(input);
-		List<String> answers = splitToNumberList(answer);
-
-		int ball = 0;
-
-		for (int index = 0; index < inputNumbers.size(); index++) {
-			ball += isBall(inputNumbers.get(index), answers.get(index));
-		}
-
-		return ball;
+		return ballCounter.count(answer, input);
 	}
 
 	public GameRecord play(String input) throws IllegalAccessException {
@@ -70,35 +53,15 @@ public class Game {
 		return new GameRecord(strikeCount, ballCount);
 	}
 
-	private void endGame() {
-		playing = false;
-	}
-
 	public String getAnswer() {
 		return answer;
 	}
 
-	private List<String> splitToNumberList(String input) {
-		String[] split = input.split("");
-		return Arrays.asList(split);
-	}
-
-	private int isStrike(String ithInput, String ithAnswer) {
-		if (ithInput.equals(ithAnswer)) {
-			return 1;
-		}
-
-		return 0;
-	}
-
-	private int isBall(String ithInput, String ithAnswer) {
-		if (!ithInput.equals(ithAnswer) && answer.contains(ithInput)) {
-			return 1;
-		}
-		return 0;
-	}
-
 	public void setAnswer(String answer) {
 		this.answer = answer;
+	}
+
+	private void endGame() {
+		playing = false;
 	}
 }

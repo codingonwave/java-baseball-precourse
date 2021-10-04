@@ -9,34 +9,45 @@ public class GameView {
 		System.out.print(chooseMessage(game));
 	}
 
-	public void response(GameRecord record) {
-		String message = "";
-
-		if (record.getStrike() > 0) {
-			message += record.getStrike() + "스트라이크 ";
-		}
-
-		if (record.getBall() > 0) {
-			message += record.getBall() + "볼 ";
-		}
-
-		if (record.getStrike() < 1 && record.getBall() < 1) {
-			message = "낫싱";
-		}
-
-		if (record.getStrike() == 3) {
-			message += "\n3개의 숫자를 모두 맞히셨습니다! 게임 끝";
-		}
-
-		message = message.trim();
-		System.out.println(message);
-	}
-
 	private String chooseMessage(Game game) {
 		if (game.isPlaying()) {
 			return GuidMessage.MSG_FOR_PLAY;
 		}
 		return GuidMessage.MSG_FOR_START;
+	}
+
+	public void response(GameRecord record) {
+		String message = "";
+		message += strikeMessage(record);
+		message += ballMessage(record);
+		message += otherMessage(record);
+		message = message.trim();
+		System.out.println(message);
+	}
+
+	private String strikeMessage(GameRecord record) {
+		if (record.getStrike() > 0) {
+			return record.getStrike() + "스트라이크 ";
+		}
+		return "";
+	}
+
+	private String ballMessage(GameRecord record) {
+		if (record.getBall() > 0) {
+			return record.getStrike() + "볼 ";
+		}
+		return "";
+	}
+
+	private String otherMessage(GameRecord record) {
+		if (record.getStrike() < 1 && record.getBall() < 1) {
+			return "낫싱";
+		}
+
+		if (record.getStrike() == 3) {
+			return "\n3개의 숫자를 모두 맞히셨습니다! 게임 끝";
+		}
+		return "";
 	}
 
 	public void responseError(String errorMessage) {
